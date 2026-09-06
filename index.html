@@ -253,7 +253,7 @@
         <p>Rich, fudgy chocolate brownie with a crackly top and gooey center.</p>
         <div class="card-footer">
           <span class="price">₱85</span>
-          <button class="order-item-btn" onclick="handleOrderClick('Fudgy Brownie', 85, 'images/brownie.png', false)">Order Now</button>
+          <button class="order-item-btn" onclick="handleOrderClick('Fudgy Brownie', 85, 'images/brownies.png', false)">Order Now</button>
         </div>
       </div>
 
@@ -323,7 +323,7 @@
         <h3>📱 Connect With Us</h3>
         <div class="social-pill-group">
           <!-- Instagram Pill -->
-          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-pill instagram">
+          <a href="https://www.instagram.com/katsu_2330/" target="_blank" rel="noopener noreferrer" class="social-pill instagram">
             <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
@@ -333,7 +333,7 @@
           </a>
 
           <!-- Facebook Pill -->
-          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-pill facebook">
+          <a href="https://www.facebook.com/joaquin.matthew.velarde.2025/" target="_blank" rel="noopener noreferrer" class="social-pill facebook">
             <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
             </svg>
@@ -373,7 +373,7 @@
           <div class="label-row"><label>Email Address</label></div>
           <div class="input-wrapper">
             <span class="input-icon">✉️</span>
-            <input type="email" placeholder="you@example.com" required>
+            <input type="email" placeholder="wack.ux@example.com" required>
           </div>
         </div>
         <div class="form-group">
@@ -387,6 +387,21 @@
           </div>
         </div>
         <button type="submit" class="glow-btn" id="authSubmitBtn">Sign In & Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sign In Guard Modal -->
+  <div id="authModal" class="auth-modal-overlay">
+    <div class="auth-modal-card">
+      <button class="auth-close-btn" onclick="closeAuthModal()">&times;</button>
+      <h2 style="color: #e2903b; margin-bottom: 8px;">Sign In Required</h2>
+      <p style="color: #d1c2b5; font-size: 14px; margin-bottom: 20px;">Please log in to your Brew Haven account to place an order.</p>
+      
+      <form onsubmit="handleLogin(event)">
+        <input type="email" placeholder="Email Address" required class="auth-input">
+        <input type="password" placeholder="Password" required class="auth-input">
+        <button type="submit" class="glow-btn" style="width: 100%; margin-top: 12px; cursor: pointer;">Sign In & Order</button>
       </form>
     </div>
   </div>
