@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brew Haven Coffee</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Floating Right Corner Side Drawer Header -->
+  <div class="side-nav-wrapper">
+    <div class="side-nav-trigger">
+      <img src="images/logo.png" alt="Brew Haven Logo" class="trigger-logo">
+      <span class="trigger-text">MENU</span>
+    </div>
+    <nav class="side-drawer">
+      <div class="drawer-brand">
+        <img src="images/logo.png" alt="Brew Haven Logo" class="site-logo">
+        <div class="brand-titles">
+          <h2>BREW HAVEN</h2>
+          <span>Artisan Coffee</span>
+        </div>
+      </div>
+
+      <div class="drawer-links">
+        <a href="#home">Home</a>
+        <a href="#about">Our Story</a>
+        <a href="#menu">Menu</a>
+        <a href="#vipMenu" id="vipNavLink" class="hidden">Exclusive Menu ✨</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="drawer-actions">
+        <button class="cart-btn" id="openCartBtn">
+          🛒 Cart <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+        <button class="login-btn" id="openLoginBtn">Sign In</button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <div class="white-bar">
+        <!-- Ambient Animated Coffee Steam -->
+        <div class="steam-container">
+          <div class="steam-wave wave-1"></div>
+          <div class="steam-wave wave-2"></div>
+          <div class="steam-wave wave-3"></div>
+        </div>
+
+        <img src="images/pumpkin banner.png" 
+             alt="Pumpkin Spice Latte" 
+             class="latte-img floating-img" 
+             onclick="scrollToAndHighlight('pumpkin-card')" 
+             style="cursor: pointer;">
+        <img src="images/new sticker.png" alt="New Special" class="new-sticker-img">
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="pulse-badge">🎃 NEW SEASONAL SPECIAL</div>
+      <h1 class="title-white">PUMPKIN SPICE</h1>
+      <h1 class="title-orange">Latte</h1>
+      <p class="latte-sub" id="heroSub">Savor the warmth of rich espresso and velvety milk infused with perfectly balanced autumn spices.</p>
+      <button class="glow-btn-hero" onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})">EXPLORE MENU</button>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section" id="about">
+    <div class="about-container">
+      <img src="images/cafe left.jpg" alt="Brew Haven Interior" class="about-side-img">
+
+      <div class="about-text">
+        <h2 class="section-title">THE BREW HAVEN BACKGROUND</h2>
+        <p>
+          Born in the heart of Pagsanjan, Brew Haven started with a simple mission: to craft the perfect cup of coffee while creating a sanctuary for our community. We source our Arabica beans directly from sustainable farms, roasting them in-house to ensure every pour is as fresh as it is flavorful.
+        </p>
+      </div>
+
+      <img src="images/cafe right.jpg" alt="Brew Haven Exterior" class="about-side-img">
+    </div>
+  </section>
+
+  <!-- Primary Menu Section -->
+  <section class="menu-section" id="menu">
+    <h2 class="section-title">SEASONAL MENU</h2>
+    
+    <h3 class="menu-category-title">Signature Drinks</h3>
+    <div class="menu-grid">
+
+      <!-- Seasonal Star -->
+      <div class="menu-card featured-pumpkin" id="pumpkin-card">
+        <div class="pumpkin-badge">🎃 SEASONAL STAR</div>
+        <div class="menu-img-wrapper">
+          <img src="images/pumpkin latte.png" alt="Pumpkin Spice Latte" class="menu-img">
+        </div>
+        <h3>Pumpkin Spice Latte</h3>
+        <p>Espresso, steamed milk, pumpkin puree, nutmeg.</p>
+        <div class="flavor-pills">
+          <span class="flavor-pill">☕ Dark Roast</span>
+          <span class="flavor-pill">🎃 Autumn Spice</span>
+        </div>
+        <div class="card-footer">
+          <span class="price">From ₱160</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Pumpkin Spice Latte', 160, 'images/pumpkin latte.png', true)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- Banana Bread Latte -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/banana bread latte.png" alt="Banana Bread Latte" class="menu-img">
+        </div>
+        <h3>Banana Bread Latte</h3>
+        <p>Espresso blended with toasted banana, caramel, and cinnamon spice.</p>
+        <div class="flavor-pills">
+          <span class="flavor-pill">🍌 Toasted Sweet</span>
+          <span class="flavor-pill">☕ Medium Roast</span>
+        </div>
+        <div class="card-footer">
+          <span class="price">From ₱165</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Banana Bread Latte', 165, 'images/banana bread latte.png', true)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- French Vanilla Latte -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/french vanilla latte.png" alt="French Vanilla Latte" class="menu-img">
+        </div>
+        <h3>French Vanilla Latte</h3>
+        <p>Smooth espresso paired with velvety steamed milk and rich vanilla bean.</p>
+        <div class="flavor-pills">
+          <span class="flavor-pill">🍦 Vanilla Bean</span>
+          <span class="flavor-pill">🥛 Smooth & Creamy</span>
+        </div>
+        <div class="card-footer">
+          <span class="price">From ₱155</span>
+          <button class="order-item-btn" onclick="handleOrderClick('French Vanilla Latte', 155, 'images/french vanilla latte.png', true)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- Signature Espresso -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/Signature espresso.png" alt="Signature Espresso" class="menu-img">
+        </div>
+        <h3>Signature Espresso</h3>
+        <p>Rich double shot Arabica blend with golden crema.</p>
+        <div class="flavor-pills">
+          <span class="flavor-pill">⚡ Bold Shot</span>
+          <span class="flavor-pill">🔥 100% Arabica</span>
+        </div>
+        <div class="card-footer">
+          <span class="price">From ₱110</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Signature Espresso', 110, 'images/Signature espresso.png', true)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- Strawberry Latte -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/strawberry latte.png" alt="Strawberry Latte" class="menu-img">
+        </div>
+        <h3>Strawberry Latte</h3>
+        <p>Fresh strawberry reduction layered with cold milk and smooth coffee espresso.</p>
+        <div class="flavor-pills">
+          <span class="flavor-pill">🍓 Berry Fruity</span>
+          <span class="flavor-pill">🧊 Refreshing</span>
+        </div>
+        <div class="card-footer">
+          <span class="price">From ₱160</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Strawberry Latte', 160, 'images/strawberry latte.png', true)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- Strawberry Matcha -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/Strawberry matcha.png" alt="Strawberry Matcha" class="menu-img">
+        </div>
+        <h3>Strawberry Matcha</h3>
+        <p>Layered premium ceremonial matcha over sweet strawberry milk.</p>
+        <div class="flavor-pills">
+          <span class="flavor-pill">🍵 Ceremonial Grade</span>
+          <span class="flavor-pill">🍓 Sweet Layers</span>
+        </div>
+        <div class="card-footer">
+          <span class="price">From ₱175</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Strawberry Matcha', 175, 'images/Strawberry matcha.png', true)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- Matcha Latte -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/matcha latte.png" alt="Matcha Latte" class="menu-img">
+        </div>
+        <h3>Matcha Latte</h3>
+        <p>Smooth and earthy green tea matcha with steamed milk.</p>
+        <div class="flavor-pills">
+          <span class="flavor-pill">🌿 Pure Earthy</span>
+          <span class="flavor-pill">🥛 Velvety</span>
+        </div>
+        <div class="card-footer">
+          <span class="price">From ₱160</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Matcha Latte', 160, 'images/matcha latte.png', true)">Order Now</button>
+        </div>
+      </div>
+
+    </div>
+
+    <h3 class="menu-category-title" style="margin-top: 50px;">Snacks & Bakes</h3>
+    <div class="menu-grid">
+
+      <!-- Glazed Donut -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/glaze donut.png" alt="Glazed Donut" class="menu-img">
+        </div>
+        <h3>Glazed Donut</h3>
+        <p>Soft, airy donut with signature sweet glaze.</p>
+        <div class="card-footer">
+          <span class="price">₱75</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Glazed Donut', 75, 'images/glaze donut.png', false)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- Loaded Nachos -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/nachos.png" alt="Loaded Nachos" class="menu-img">
+        </div>
+        <h3>Loaded Nachos</h3>
+        <p>Crispy tortilla chips topped with warm melted cheese, salsa, and jalapeños.</p>
+        <div class="card-footer">
+          <span class="price">₱135</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Loaded Nachos', 135, 'images/nachos.png', false)">Order Now</button>
+        </div>
+      </div>
+
+      <!-- Fudgy Brownie -->
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/brownies.png" alt="Fudgy Brownie" class="menu-img">
+        </div>
+        <h3>Fudgy Brownie</h3>
+        <p>Rich, fudgy chocolate brownie with a crackly top and gooey center.</p>
+        <div class="card-footer">
+          <span class="price">₱85</span>
+          <button class="order-item-btn" onclick="handleOrderClick('Fudgy Brownie', 85, 'images/brownie.png', false)">Order Now</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- UNLOCKED EXCLUSIVE SECOND MENU (Hidden until Login) -->
+  <section class="menu-section exclusive-menu hidden" id="vipMenu">
+    <div class="unlock-banner">✨ MEMBER EXCLUSIVE MENU UNLOCKED ✨</div>
+    <h2 class="section-title">BARISTA SECRET SELECTIONS</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/Strawberry matcha.png" alt="Strawberry Matcha Deluxe" class="menu-img">
+        </div>
+        <h3>Double Strawberry Matcha Deluxe</h3>
+        <p>Extra ceremonial matcha shot topped with real strawberry puree & foam.</p>
+        <div class="card-footer">
+          <span class="price">₱210</span>
+          <button class="order-item-btn" onclick="openOrderModal('Double Strawberry Matcha Deluxe', 210, 'images/Strawberry matcha.png')">Customize</button>
+        </div>
+      </div>
+
+      <div class="menu-card">
+        <div class="menu-img-wrapper">
+          <img src="images/banana bread latte.png" alt="Banana Bread Supreme" class="menu-img">
+        </div>
+        <h3>Banana Bread Supreme Shake</h3>
+        <p>Banana bread latte blended with oat milk, vanilla ice cream, and espresso shot.</p>
+        <div class="card-footer">
+          <span class="price">₱220</span>
+          <button class="order-item-btn" onclick="openOrderModal('Banana Bread Supreme Shake', 220, 'images/banana bread latte.png')">Customize</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section class="reviews-section" id="reviews">
+    <h2 class="section-title">WHAT OUR COFFEE LOVERS SAY</h2>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <p>"The Pumpkin Spice Latte is unmatched! Best cozy vibes in town."</p>
+        <br><strong>⭐ Pomni.</strong>
+      </div>
+      <div class="review-card">
+        <p>"Smooth French Vanilla Latte and fresh Glazed Donuts every single morning."</p>
+        <br><strong>⭐ Kinger.</strong>
+      </div>
+      <div class="review-card">
+        <p>"Strawberry Matcha is my absolute favorite. Beautiful layers and taste!"</p>
+        <br><strong>⭐ Jax.</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <h2 class="section-title">VISIT OR GET IN TOUCH</h2>
+    <div class="contact-container">
+      <div class="location-box">
+        <h3>📍 Brew Haven Shop</h3>
+        <p>P. Caballes St. Pagsanjan, Laguna</p>
+        <h3 style="margin-top: 20px;">🕒 Opening Hours</h3>
+        <p>Tuesday - Saturday: 8:00 AM – 10:00 PM</p>
+        
+        <h3>📱 Connect With Us</h3>
+        <div class="social-pill-group">
+          <!-- Instagram Pill -->
+          <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-pill instagram">
+            <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+            <span>Instagram</span>
+          </a>
+
+          <!-- Facebook Pill -->
+          <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-pill facebook">
+            <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+            <span>Facebook</span>
+          </a>
+        </div>
+      </div>
+
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent!');">
+        <h3>Send Us a Message</h3>
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit" class="glow-btn">Submit Message</button>
+      </form>
+    </div>
+
+    <!-- Flush Divider & Single Copyright Footer -->
+    <hr class="footer-divider">
+    <p class="copyright-text">© 2026 Brew Haven Coffee. All rights reserved.</p>
+  </section>
+
+  <!-- Sign In / Sign Up Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal-box login-card">
+      <button class="close-btn" id="closeLoginBtn">&times;</button>
+      <div class="brand-badge-wrapper">
+        <img src="images/logo.png" alt="Brew Haven Logo" class="modal-logo">
+      </div>
+      <h3 id="loginPromptTitle" style="text-align: center; color: #e2903b; margin-top: 10px;">Sign In to Complete Order</h3>
+      <div class="tab-toggle">
+        <button class="tab-btn active" id="signInTab" onclick="switchTab('signin')">Sign In</button>
+        <button class="tab-btn" id="signUpTab" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group">
+          <div class="label-row"><label>Email Address</label></div>
+          <div class="input-wrapper">
+            <span class="input-icon">✉️</span>
+            <input type="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="label-row">
+            <label>Password</label>
+            <a href="#" class="forgot-pass">Forgot?</a>
+          </div>
+          <div class="input-wrapper">
+            <span class="input-icon">🔒</span>
+            <input type="password" placeholder="••••••••" required>
+          </div>
+        </div>
+        <button type="submit" class="glow-btn" id="authSubmitBtn">Sign In & Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Order Customization Modal -->
+  <div class="modal-overlay" id="itemModal">
+    <div class="modal-box order-card">
+      <button class="close-btn" onclick="closeOrderModal()">&times;</button>
+      
+      <div class="order-preview">
+        <img src="" id="modalImg" alt="Item Preview">
+        <h3 id="modalTitle">Item Name</h3>
+        <p id="modalDesc">Tailored fresh for you — pick your ideal size below ☕</p>
+      </div>
+
+      <div class="size-selector">
+        <h4>Select Size</h4>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" id="size-12" name="drinkSize" value="0" checked onchange="updateModalPrice()">
+            <span>Regular (12oz)</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" id="size-16" name="drinkSize" value="30" onchange="updateModalPrice()">
+            <span>Large (16oz) +₱30</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="cart-summary" style="margin-top: 20px;">
+        <div class="cart-total-row">
+          <span>Total:</span>
+          <strong id="modalPriceDisplay">₱0</strong>
+        </div>
+        <button class="glow-btn" onclick="confirmModalOrder()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="modal-overlay" id="cartModal">
+    <div class="modal-box cart-card">
+      <button class="close-btn" id="closeCartBtn">&times;</button>
+      <h3>Your Order</h3>
+      <ul class="cart-items-list" id="cartItemsList"></ul>
+      <div class="cart-summary">
+        <div class="cart-total-row">
+          <span>Total:</span>
+          <strong id="cartTotal">₱0</strong>
+        </div>
+        <button class="glow-btn" onclick="alert('Order Placed Successfully!')">Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast" id="toast">Added to Cart!</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
