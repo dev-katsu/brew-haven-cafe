@@ -230,23 +230,24 @@ body {
 
 .title-white {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 92px;
-  line-height: 0.85;
+  font-size: clamp(2.8rem, 7.5vw, 5.75rem);
+  line-height: 0.9;
   color: #ffffff;
 }
 
 .title-orange {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 92px;
-  line-height: 0.85;
+  font-size: clamp(2.8rem, 7.5vw, 5.75rem);
+  line-height: 0.9;
   color: #e2903b;
   margin-bottom: 20px;
 }
 
 .latte-sub {
-  font-size: 20px;
+  font-size: clamp(0.95rem, 2vw, 1.25rem);
   color: #ffffff;
   margin-bottom: 25px;
+  max-width: 600px;
 }
 
 .glow-btn-hero {
@@ -258,11 +259,26 @@ body {
   font-weight: 700;
   cursor: pointer;
   width: fit-content;
+  
+  /* Smooth animation setup */
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover lift and glowing effect */
+.glow-btn-hero:hover {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 10px 25px rgba(226, 144, 59, 0.5);
+}
+
+/* Click press effect */
+.glow-btn-hero:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
 .section-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 38px;
+  font-size: clamp(2rem, 5vw, 2.4rem);
   color: #e2903b;
   text-align: center;
   margin-bottom: 35px;
@@ -885,3 +901,172 @@ footer {
   border-color: #e2903b;
 }
 
+/* Ensure the button supports transforms and smooth transitions */
+.explore-btn, #exploreBtn {
+  display: inline-block; /* Required for transform effects on <a> links */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Hover state: lifts up and adds a glow */
+.explore-btn:hover, #exploreBtn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(226, 144, 59, 0.35);
+}
+
+/* Active click state: depresses slightly */
+.explore-btn:active, #exploreBtn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.hero-right {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Pulls banner directly to top edge */
+  padding: 25px 5% 40px 5%; /* Tightens padding so banner stretches wide */
+}
+
+.hero-top-banner {
+  width: 128%;
+  height: 320px; /* Fills the full height of your red outline box */
+  margin-bottom: 20px;
+  margin-left: -150px;
+  margin-top: -15px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(226, 144, 59, 0.35);
+  flex-shrink: 0;
+}
+
+.hero-top-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Edge-to-edge crisp cover without distortion */
+  object-position: center;
+  display: block;
+}
+
+.reviews-section {
+  padding: 60px 0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.reviews-slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-top: 30px;
+  /* Soft edge fade effect */
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.reviews-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: continuousScroll 35s linear infinite;
+}
+
+/* Pause animation on hover */
+.reviews-track:hover {
+  animation-play-state: paused;
+}
+
+.review-card {
+  width: 320px;
+  flex-shrink: 0;
+  background: rgba(35, 20, 12, 0.85);
+  border: 1px solid rgba(226, 144, 59, 0.3);
+  padding: 24px;
+  border-radius: 16px;
+  color: #fff;
+  text-align: left;
+}
+
+.review-card .stars {
+  color: #e2903b;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.review-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-style: italic;
+  margin-bottom: 15px;
+}
+
+.review-card h4 {
+  color: #e2903b;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Continuous marquee animation */
+@keyframes continuousScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Scroll-Triggered Floating Popup Ad */
+.popup-ad-container {
+  position: fixed;
+  bottom: -400px; /* Hidden below screen initially */
+  right: 25px;
+  width: 320px;
+  max-width: 85vw;
+  background: #1e110a;
+  border: 2px solid #e2903b;
+  border-radius: 18px;
+  padding: 8px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(226, 144, 59, 0.35);
+  z-index: 9999;
+  transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popup-ad-container.active {
+  bottom: 25px; /* Slides up smoothly into view */
+}
+
+.popup-ad-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.popup-ad-container:hover .popup-ad-img {
+  transform: scale(1.02);
+}
+
+.popup-close-btn {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 32px;
+  height: 32px;
+  background: #e2903b;
+  color: #1e110a;
+  border: 2px solid #1e110a;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 26px;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.popup-close-btn:hover {
+  background: #fff;
+  transform: scale(1.15) rotate(90deg);
+}
