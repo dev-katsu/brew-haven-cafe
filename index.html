@@ -62,6 +62,10 @@
       </div>
     </div>
     <div class="hero-right">
+      <!-- Top Hero Newsletter Banner -->
+      <div class="hero-top-banner">
+        <img src="images/newsletter.png" alt="Brew Haven Pumpkin Spice Latte Banner">
+      </div>
       <div class="pulse-badge">🎃 NEW SEASONAL SPECIAL</div>
       <h1 class="title-white">PUMPKIN SPICE</h1>
       <h1 class="title-orange">Latte</h1>
@@ -95,6 +99,7 @@
 
       <!-- Seasonal Star -->
       <div class="menu-card featured-pumpkin" id="pumpkin-card">
+
         <div class="pumpkin-badge">🎃 SEASONAL STAR</div>
         <div class="menu-img-wrapper">
           <img src="images/pumpkin latte.png" alt="Pumpkin Spice Latte" class="menu-img">
@@ -291,24 +296,58 @@
     </div>
   </section>
 
-  <!-- Reviews Section -->
+  <!-- Reviews Section Carousel -->
   <section class="reviews-section" id="reviews">
-    <h2 class="section-title">WHAT OUR COFFEE LOVERS SAY</h2>
-    <div class="reviews-grid">
+  <h2 class="section-title">WHAT OUR CUSTOMERS SAY</h2>
+  
+  <div class="reviews-slider">
+    <div class="reviews-track">
+      
+      <!-- Set 1 (8 Cards) -->
       <div class="review-card">
-        <p>"The Pumpkin Spice Latte is unmatched! Best cozy vibes in town."</p>
-        <br><strong>⭐ Pomni.</strong>
+        <div class="stars">★★★★★</div>
+        <p>"The Pumpkin Spice Latte here is on another level. Perfectly balanced, not sweet!"</p>
+        <h4>⭐ Pomni.</h4>
       </div>
       <div class="review-card">
-        <p>"Smooth French Vanilla Latte and fresh Glazed Donuts every single morning."</p>
-        <br><strong>⭐ Kinger.</strong>
+        <div class="stars">★★★★★</div>
+        <p>"Hands down the coziest cafe in town. The autumn vibe and fresh brews make my day."</p>
+        <h4>⭐ Jax.</h4>
       </div>
       <div class="review-card">
-        <p>"Strawberry Matcha is my absolute favorite. Beautiful layers and taste!"</p>
-        <br><strong>⭐ Jax.</strong>
+        <div class="stars">★★★★★</div>
+        <p>"Rich espresso, velvety milk, and fast service. I come here every single day."</p>
+        <h4>⭐ Caine.</h4>
       </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"The seasonal specials never disappoint. Super friendly staff and aesthetic decor."</p>
+        <h4>⭐ Bubble.</h4>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Best whipped cream and spiced flavor profile I've ever had. 10/10 recommendation!"</p>
+        <h4>⭐ Ragatha.</h4>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Great ambiance to work or read a book while sipping their signature brews."</p>
+        <h4>⭐ Gangle.</h4>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"Smooth blend with zero bitterness. Brew Haven definitely knows how to craft a drink."</p>
+        <h4>⭐ Zooble.</h4>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p>"That real nutmeg and cinnamon topping makes all the difference. Instant favorite!"</p>
+        <h4>⭐ Kinger.</h4>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Contact Section -->
   <section class="contact-section" id="contact">
@@ -461,5 +500,14 @@
   <div class="toast" id="toast">Added to Cart!</div>
 
   <script src="script.js"></script>
+
+<!-- Scroll-Triggered Floating Popup Ad -->
+<div class="popup-ad-container" id="popupAd">
+  <button class="popup-close-btn" id="closeAdBtn" aria-label="Close Ad">&times;</button>
+  <a href="#menu" onclick="closePopupAd()">
+    <img src="images/banner ads.png" alt="Pumpkin Spice Latte Special Offer" class="popup-ad-img">
+  </a>
+</div>
+
 </body>
 </html>
