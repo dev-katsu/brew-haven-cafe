@@ -4,254 +4,7 @@
 }
 
 * {
-  margin: 0;let cart = [];
-let currentItem = { name: '', basePrice: 0, image: '' };
-let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-document.addEventListener('DOMContentLoaded', () => {
-  const openCartBtn = document.getElementById('openCartBtn');
-  const closeCartBtn = document.getElementById('closeCartBtn');
-  const cartModal = document.getElementById('cartModal');
-
-  const openLoginBtn = document.getElementById('openLoginBtn');
-  const closeLoginBtn = document.getElementById('closeLoginBtn');
-  const loginModal = document.getElementById('loginModal');
-
-  if (openCartBtn) openCartBtn.addEventListener('click', () => { renderCart(); cartModal.classList.add('active'); });
-  if (closeCartBtn) closeCartBtn.addEventListener('click', () => cartModal.classList.remove('active'));
-
-  // Toggle Login modal or Sign Out depending on auth state
-  if (openLoginBtn) {
-    openLoginBtn.addEventListener('click', () => {
-      if (isLoggedIn) {
-        handleLogout();
-      } else {
-        openAuthModal();
-      }
-    });
-  }
-
-  if (closeLoginBtn) closeLoginBtn.addEventListener('click', () => closeAuthModal());
-
-  // Restore authenticated state if saved in localStorage
-  if (isLoggedIn) {
-    unlockMemberFeatures();
-  }
-
-  // Dynamic Time-of-Day Hero Tagline
-  const heroSub = document.getElementById('heroSub');
-  if (heroSub) {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 11) {
-      heroSub.innerText = "Start your morning with artisan espresso and warm autumn spices.";
-    } else if (hour >= 11 && hour < 17) {
-      heroSub.innerText = "Midday pick-me-up, roasted fresh in the heart of Pagsanjan.";
-    } else {
-      heroSub.innerText = "Unwind tonight with cozy autumn spices and handcrafted brews.";
-    }
-  }
-});
-
-// Central Guard: Ensures the user is logged in before allowing any order action
-function requireAuth() {
-  if (!isLoggedIn) {
-    openAuthModal();
-    showToast('Please sign in to place an order.');
-    return false;
-  }
-  return true;
-}
-
-function handleOrderClick(name, basePrice, imgSrc, isDrink) {
-  if (!requireAuth()) return;
-
-  const descriptions = {
-    'Banana Bread Latte': 'Espresso blended with toasted banana, caramel, and cinnamon spice.',
-    'Pumpkin Spice Latte': 'Espresso, steamed milk, pumpkin puree, and nutmeg.',
-    'French Vanilla Latte': 'Smooth espresso paired with velvety steamed milk and rich vanilla bean.',
-    'Signature Espresso': 'Rich double shot Arabica blend with golden crema.',
-    'Strawberry Latte': 'Fresh strawberry reduction layered with cold milk and espresso.',
-    'Strawberry Matcha': 'Layered premium ceremonial matcha over sweet strawberry milk.',
-    'Matcha Latte': 'Smooth and earthy green tea matcha with steamed milk.'
-  };
-
-  if (isDrink) {
-    openOrderModal(name, basePrice, imgSrc, descriptions[name]);
-  } else {
-    addToCart(name, basePrice);
-  }
-}
-
-function openOrderModal(name, basePrice, imgSrc, description) {
-  if (!requireAuth()) return;
-
-  currentItem = { name, basePrice, image: imgSrc };
-  
-  document.getElementById('modalTitle').innerText = name;
-  document.getElementById('modalImg').src = imgSrc;
-  document.getElementById('modalDesc').innerText = description || "Tailored fresh for you — pick your ideal size below ☕";
-  
-  document.getElementById('size-12').checked = true;
-  updateModalPrice();
-  document.getElementById('itemModal').classList.add('active');
-}
-
-function closeOrderModal() {
-  document.getElementById('itemModal').classList.remove('active');
-}
-
-function updateModalPrice() {
-  const sizeExtra = parseInt(document.querySelector('input[name="drinkSize"]:checked').value);
-  const total = currentItem.basePrice + sizeExtra;
-  document.getElementById('modalPriceDisplay').innerText = `₱${total}`;
-}
-
-function confirmModalOrder() {
-  if (!requireAuth()) return;
-
-  const sizeExtra = parseInt(document.querySelector('input[name="drinkSize"]:checked').value);
-  const sizeLabel = sizeExtra === 30 ? 'Large (16oz)' : 'Regular (12oz)';
-  const finalPrice = currentItem.basePrice + sizeExtra;
-  
-  addToCart(`${currentItem.name} (${sizeLabel})`, finalPrice);
-  closeOrderModal();
-}
-
-function addToCart(name, price) {
-  if (!requireAuth()) return;
-
-  cart.push({ name, price });
-  document.getElementById('cartBadge').innerText = cart.length;
-  showToast(`Added ${name} to cart!`);
-}
-
-function renderCart() {
-  const cartList = document.getElementById('cartItemsList');
-  const cartTotal = document.getElementById('cartTotal');
-  cartList.innerHTML = '';
-  let total = 0;
-
-  if (cart.length === 0) {
-    cartList.innerHTML = '<li style="color:#d1c2b5; text-align:center; list-style:none;">Your cart is empty.</li>';
-    cartTotal.innerText = '₱0';
-    return;
-  }
-
-  cart.forEach((item, index) => {
-    total += item.price;
-    const li = document.createElement('li');
-    li.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; color:#fff; list-style:none;';
-    li.innerHTML = `
-      <span>${item.name}</span>
-      <div>
-        <strong style="color:#e2903b; margin-right: 10px;">₱${item.price}</strong>
-        <button onclick="removeFromCart(${index})" style="background:none; border:none; color:#ff5555; cursor:pointer; font-weight:bold;">&times;</button>
-      </div>
-    `;
-    cartList.appendChild(li);
-  });
-
-  cartTotal.innerText = `₱${total}`;
-}
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  document.getElementById('cartBadge').innerText = cart.length;
-  renderCart();
-}
-
-function switchTab(tab) {
-  const signInTab = document.getElementById('signInTab');
-  const signUpTab = document.getElementById('signUpTab');
-  const authSubmitBtn = document.getElementById('authSubmitBtn');
-
-  if (tab === 'signin') {
-    signInTab.classList.add('active');
-    signUpTab.classList.remove('active');
-    authSubmitBtn.innerText = 'Sign In & Continue';
-  } else {
-    signUpTab.classList.add('active');
-    signInTab.classList.remove('active');
-    authSubmitBtn.innerText = 'Create Account';
-  }
-}
-
-function unlockMemberFeatures() {
-  isLoggedIn = true;
-  localStorage.setItem('isLoggedIn', 'true');
-  const vipMenu = document.getElementById('vipMenu');
-  const vipNavLink = document.getElementById('vipNavLink');
-  const openLoginBtn = document.getElementById('openLoginBtn');
-
-  if (vipMenu) vipMenu.classList.remove('hidden');
-  if (vipNavLink) vipNavLink.classList.remove('hidden');
-  if (openLoginBtn) openLoginBtn.innerText = 'Sign Out 🚪';
-}
-
-function handleLogout() {
-  isLoggedIn = false;
-  localStorage.removeItem('isLoggedIn');
-  const vipMenu = document.getElementById('vipMenu');
-  const vipNavLink = document.getElementById('vipNavLink');
-  const openLoginBtn = document.getElementById('openLoginBtn');
-
-  if (vipMenu) vipMenu.classList.add('hidden');
-  if (vipNavLink) vipNavLink.classList.add('hidden');
-  if (openLoginBtn) openLoginBtn.innerText = 'Sign In';
-  showToast('Signed out successfully!');
-}
-
-function handleAuthSubmit(event) {
-  event.preventDefault();
-  closeAuthModal();
-  unlockMemberFeatures();
-  showToast('Welcome back! VIP Menu Unlocked ✨');
-}
-
-function openAuthModal() {
-  const modal = document.getElementById('loginModal') || document.getElementById('authModal');
-  if (modal) modal.classList.add('active');
-}
-
-function closeAuthModal() {
-  const loginModal = document.getElementById('loginModal');
-  const authModal = document.getElementById('authModal');
-  if (loginModal) loginModal.classList.remove('active');
-  if (authModal) authModal.classList.remove('active');
-}
-
-function handleLogin(event) {
-  event.preventDefault();
-  closeAuthModal();
-  unlockMemberFeatures();
-  showToast('Signed in successfully! You can now place orders.');
-}
-
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  if (!toast) return;
-  toast.innerText = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
-}
-
-function scrollToAndHighlight(id) {
-  const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
-// Dynamic scroll background lightening
-window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY;
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollRatio = Math.min(scrollTop / Math.max(maxScroll, 1), 1);
-  
-  const r = Math.round(31 + (95 - 31) * scrollRatio);
-  const g = Math.round(17 + (55 - 17) * scrollRatio);
-  const b = Math.round(9 + (30 - 9) * scrollRatio);
-
-  document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-});
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
@@ -265,6 +18,7 @@ body {
   background-color: #2b180d;
   color: #fdf8f2;
   overflow-x: hidden;
+  transition: background-color 0.2s ease-out;
 }
 
 .hidden {
@@ -452,6 +206,7 @@ body {
   width: 380px;
   filter: drop-shadow(15px 15px 25px rgba(0,0,0,0.6));
   z-index: 2;
+  animation: floatAnimation 3.5s ease-in-out infinite;
 }
 
 .hero-right {
@@ -551,11 +306,11 @@ body {
 
 .menu-section, .reviews-section, .contact-section {
   padding: 70px 8%;
-  background-color: #1f1109;
+  background-color: transparent !important;
 }
 
 .exclusive-menu {
-  background: linear-gradient(180deg, #3d220f 0%, #1f1109 100%);
+  background: linear-gradient(180deg, rgba(61, 34, 15, 0.5) 0%, transparent 100%) !important;
   border-top: 2px dashed #e2903b;
 }
 
@@ -600,6 +355,7 @@ body {
 .menu-card.featured-pumpkin {
   position: relative;
   border: 2px solid #e2903b;
+  animation: cardBorderGlow 3s infinite ease-in-out;
 }
 
 .pumpkin-badge {
@@ -610,8 +366,10 @@ body {
   color: #1f1109;
   font-size: 11px;
   font-weight: 700;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 12px;
+  animation: badgePulseGlow 2s infinite ease-in-out;
+  z-index: 2;
 }
 
 .menu-img-wrapper {
@@ -709,20 +467,57 @@ body {
 .order-preview img {
   display: block;
   margin: 0 auto 15px auto;
-  max-height: 260px;
+  max-height: 200px;
   width: auto;
   object-fit: contain;
 }
 
+.order-preview p {
+  color: #d1c2b5;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 6px;
+  padding: 0 10px;
+}
+
+/* Radio Button Styling */
 .size-selector {
   text-align: left;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(226, 144, 59, 0.15);
+  margin-top: 15px;
+}
+
+.size-selector h4 {
+  font-size: 12px;
+  color: #e2903b;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
 
 .radio-group {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
   gap: 10px;
-  margin-top: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fdf8f2;
+}
+
+.radio-option input[type="radio"] {
+  accent-color: #e2903b;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
 }
 
 .close-btn {
@@ -794,6 +589,24 @@ body {
   cursor: pointer;
 }
 
+.cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.cart-total-row strong {
+  color: #e2903b;
+}
+
 .toast {
   position: fixed;
   bottom: 25px;
@@ -833,55 +646,6 @@ footer {
   font-size: 13px; color: #a89a8e;
 }
 
-/* Unique Subtitle Styling */
-.order-preview p {
-  color: #d1c2b5;
-  font-size: 13px;
-  line-height: 1.4;
-  margin-top: 6px;
-  padding: 0 10px;
-}
-
-/* Radio Button Side-by-Side Alignment Fix */
-.size-selector {
-  text-align: left;
-  background: rgba(0, 0, 0, 0.25);
-  padding: 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(226, 144, 59, 0.15);
-  margin-top: 15px;
-}
-
-.size-selector h4 {
-  font-size: 12px;
-  color: #e2903b;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-
-.radio-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.radio-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #fdf8f2;
-}
-
-.radio-option input[type="radio"] {
-  accent-color: #e2903b;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-}
-
 .new-sticker-img {
   position: absolute;
   bottom: 15px;
@@ -894,7 +658,7 @@ footer {
   pointer-events: none;
 }
 
-/* Floating Keyframes Animation */
+/* Keyframe Animations */
 @keyframes floatAnimation {
   0%, 100% {
     transform: translate(-50%, -50%);
@@ -904,12 +668,6 @@ footer {
   }
 }
 
-/* Attach Animation to Coffee Cup */
-.latte-img.floating-img {
-  animation: floatAnimation 3.5s ease-in-out infinite;
-}
-
-/* Glowing Pulse Keyframes */
 @keyframes badgePulseGlow {
   0%, 100% {
     box-shadow: 0 0 8px rgba(226, 144, 59, 0.6), 0 0 16px rgba(226, 144, 59, 0.3);
@@ -932,29 +690,7 @@ footer {
   }
 }
 
-/* Apply Glow to Seasonal Star Badge */
-.pumpkin-badge {
-  position: absolute;
-  top: -12px;
-  right: 18px;
-  background: #e2903b;
-  color: #1f1109;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 14px;
-  border-radius: 12px;
-  animation: badgePulseGlow 2s infinite ease-in-out;
-  z-index: 2;
-}
-
-/* Apply Soft Ambient Glow to the Featured Card */
-.menu-card.featured-pumpkin {
-  position: relative;
-  border: 2px solid #e2903b;
-  animation: cardBorderGlow 3s infinite ease-in-out;
-}
-
-/* Container Flex Alignment */
+/* Social Pills */
 .social-pill-group {
   display: flex;
   gap: 12px;
@@ -962,7 +698,6 @@ footer {
   flex-wrap: wrap;
 }
 
-/* Glassmorphic Base Pill */
 .social-pill {
   display: inline-flex;
   align-items: center;
@@ -985,7 +720,6 @@ footer {
   transition: transform 0.3s ease;
 }
 
-/* Instagram Gradient Glow Hover */
 .social-pill.instagram:hover {
   background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
   border-color: transparent;
@@ -994,7 +728,6 @@ footer {
   box-shadow: 0 8px 20px rgba(220, 39, 67, 0.45);
 }
 
-/* Facebook Brand Blue Glow Hover */
 .social-pill.facebook:hover {
   background: #1877f2;
   border-color: transparent;
@@ -1003,21 +736,17 @@ footer {
   box-shadow: 0 8px 20px rgba(24, 119, 242, 0.45);
 }
 
-/* Micro-tilt Icon on Hover */
 .social-pill:hover .pill-icon {
   transform: rotate(12deg) scale(1.15);
 }
 
-/* Force section to normal block flow */
-.contact-section,
-#contact {
+.contact-section, #contact {
   display: block !important;
   height: auto !important;
   min-height: auto !important;
   padding-bottom: 20px !important;
 }
 
-/* Tight divider line styling */
 .footer-divider {
   border: none;
   border-top: 1px solid rgba(226, 144, 59, 0.35);
@@ -1025,7 +754,6 @@ footer {
   margin: 20px auto 10px auto !important;
 }
 
-/* Flush single copyright text */
 .copyright-text {
   text-align: center;
   margin: 0 !important;
@@ -1034,21 +762,7 @@ footer {
   font-size: 13px;
 }
 
-/* Allow body background to shine through sections */
-.menu-section, 
-.reviews-section, 
-.contact-section,
-.exclusive-menu {
-  background-color: transparent !important;
-}
-
-body {
-  transition: background-color 0.2s ease-out;
-}
-
-/* NEW DESIGN ENHANCEMENTS */
-
-/* 1. Animated Coffee Steam Effect */
+/* Animated Coffee Steam Effect */
 .steam-container {
   position: absolute;
   top: 12%;
@@ -1065,7 +779,7 @@ body {
   bottom: 0;
   width: 90px;
   height: 100px;
-  background: linear-gradient(to  top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0));
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0));
   border-radius: 50% 50% 30% 30%;
   filter: blur(2px) drop-shadow(0 0 8px rgba(255, 255, 255, 0.9));
   animation: steamRise 3s ease-in-out infinite;
@@ -1090,7 +804,7 @@ body {
   }
 }
 
-/* 2. Menu Flavor Badges */
+/* Flavor Badges */
 .flavor-pills {
   display: flex;
   gap: 6px;
@@ -1106,5 +820,68 @@ body {
   padding: 3px 9px;
   border-radius: 12px;
   font-weight: 500;
+}
+
+/* Auth Modal Overlay */
+.auth-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.auth-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.auth-modal-card {
+  background: #23130a;
+  border: 1px solid #e2903b;
+  border-radius: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+.auth-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #e2903b;
+  font-size: 26px;
+  cursor: pointer;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(226, 144, 59, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: #e2903b;
 }
 
